@@ -22,12 +22,12 @@ const MostraAsteroide = (props) => {
       </div>
       <div className='card-content'>
         <span className='is-size-5 has-text-weight-bold has-text-info'>
-          Diâmetro :
+          Diâmetro : 
         </span>
         <span className='is-size-4'>{diametro} m</span>
         <br/>
         <span className='is-size-5 has-text-weight-bold has-text-info'>
-          Distância :
+          Distância : 
         </span>
         <span className='is-size-4'>{distancia} Km</span>
       </div>

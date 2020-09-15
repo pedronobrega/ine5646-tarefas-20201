@@ -41,14 +41,14 @@ const MostraRelatorio = (props) => {
       </h1>
       <div className='card-content'>
         <span className='is-size-5 has-text-weight-bold has-text-success'>
-          Qtd Asteróides Inofensivos :
+          Qtd Asteróides Inofensivos : 
         </span>
         <span className='is-size-2 has-text-weight-bold'>
           {r.asteroidesInofensivos.length}
         </span>
         <br/>
         <span className='is-size-5 has-text-weight-bold has-text-danger'>
-          Qtd Asteróides Que Ameaçam a vida na Terra :
+          Qtd Asteróides Que Ameaçam a vida na Terra : 
         </span>
         <span className='is-size-2 has-text-weight-bold'>
           {r.asteroidesAmeacadores.length}
