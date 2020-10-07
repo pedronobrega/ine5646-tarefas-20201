@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import {Panel} from 'primereact/panel'
 import {Button} from 'primereact/button'
 import {Chart} from 'primereact/chart'
+import {ProgressSpinner} from 'primereact/progressspinner';
 
 import 'primereact/resources/themes/nova-light/theme.css'
 import 'primereact/resources/primereact.min.css'
@@ -61,12 +62,15 @@ export default function App () {
   const [estado, {buscaDados, fechaGrafico}] = useModelo()
 
   let conteudo
-  // FIXME Falta avisar o usuário que os dados estão sendo obtidos no servidor.
-  // Na forma atual, o usuário pode pensar que a aplicação parou de funcionar.
   
   switch (estado.situacao) {
   case EnumSituacao.INICIAL: {
     conteudo = <Button label='Obter Dados' onClick={() => buscaDados()}/>
+    break
+  }
+
+  case EnumSituacao.PESQUISANDO: {
+    conteudo = <ProgressSpinner/>
     break
   }
   
