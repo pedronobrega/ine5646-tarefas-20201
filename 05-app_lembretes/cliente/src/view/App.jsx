@@ -8,11 +8,13 @@ import MostraLembretes from './MostraLembretes.jsx'
 
 import 'bulma/css/bulma.min.css'
 
-import type {Token, TokenDecodificado} from '../tipos_flow'
+import type {Autor, Token, TokenDecodificado} from '../tipos_flow'
 
 type Estado = {|
   token: Token | void,
-  tokenDecodificado: TokenDecodificado | void
+  tokenDecodificado: TokenDecodificado | void,
+  mostrandoAutores: boolean,
+  autores: Array<Autor>
 |}
 
 type Acao = 
@@ -22,16 +24,28 @@ type Acao =
 
 const estadoInicial: Estado = {
   token: undefined,
-  tokenDecodificado: undefined
+  tokenDecodificado: undefined,
+  mostrandoAutores: false,
+  autores: []
 }
 
 function reducer(estado: Estado, acao: Acao): Estado {
   switch (acao.type) {
   case 'REGISTRE_TOKEN':
-    return {token: acao.token, tokenDecodificado: acao.tokenDecodificado}    
+    return {
+      token: acao.token, 
+      tokenDecodificado: acao.tokenDecodificado,
+      mostrandoAutores: false,
+      autores: []
+    }    
   
   case 'RECEBA_NOVO_TOKEN': 
-    return {token: acao.token, tokenDecodificado: jwt.decode(acao.token)}
+    return {
+      token: acao.token,
+      tokenDecodificado: jwt.decode(acao.token),
+      mostrandoAutores: false,
+      autores: []
+    }
   
   case 'REGISTRE_USUARIO_SAIU':
     return estadoInicial
