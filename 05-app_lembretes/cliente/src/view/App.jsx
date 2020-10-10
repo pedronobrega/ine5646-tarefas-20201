@@ -1,7 +1,8 @@
 //@flow
-import React, {useEffect, useReducer} from 'react'
+import React, {useEffect, useReducer, useState} from 'react'
 import jwt from 'jsonwebtoken'
 
+import Autores from './Autores.jsx'
 import Login from './Login.jsx'
 import PublicaLembrete from './PublicaLembrete.jsx'
 import MostraLembretes from './MostraLembretes.jsx'
@@ -21,6 +22,7 @@ type Acao =
     {| type: 'REGISTRE_TOKEN', token: Token, tokenDecodificado: TokenDecodificado |}
   | {| type: 'RECEBA_NOVO_TOKEN', token: Token |}
   | {| type: 'REGISTRE_USUARIO_SAIU' |}
+  | {| type: 'MOSTRA_AUTORES', value: boolean|}
 
 const estadoInicial: Estado = {
   token: undefined,
@@ -45,6 +47,19 @@ function reducer(estado: Estado, acao: Acao): Estado {
       tokenDecodificado: jwt.decode(acao.token),
       mostrandoAutores: false,
       autores: []
+    }
+
+  case 'MOSTRA_AUTORES':
+    return {
+      token: estado.token,
+      tokenDecodificado: estado.tokenDecodificado,
+      mostrandoAutores: acao.value,
+      autores: [
+        {nome: 'Adan Pereira Gomes', matricula: 19200408},
+        {nome: 'Gabriel Müller', matricula: 16100728},
+        {nome: 'Jonas Lai Barbosa', matricula: 17100911},
+        {nome: 'Pedro Henrique Dias Nobrega', matricula: 19100876},
+      ]
     }
   
   case 'REGISTRE_USUARIO_SAIU':
@@ -91,7 +106,6 @@ function App () {
     }
   }, [estado.token])
 
-
   return (
     <div className='container is-fluid'>
       <div className='message'>
@@ -99,17 +113,25 @@ function App () {
             UFSC - CTC - INE - INE5646 :: App lembretes
         </div>
         <div className='message-body'>
-          <Login onToken={token => dispatch({type: 'RECEBA_NOVO_TOKEN', token})}
+          <Autores 
+            autores={estado.autores}
+            mostrandoAutores={estado.mostrandoAutores}
+            dispatch={dispatch}
+          />
+          {
+            !estado.mostrandoAutores &&
+            <Login onToken={token => dispatch({type: 'RECEBA_NOVO_TOKEN', token})}
             onSaiu={() => dispatch({type: 'REGISTRE_USUARIO_SAIU'})}
             token={estado.token}
             tokenDecodificado={estado.tokenDecodificado}/>
+          }
           {
-            estado.token &&
+            !estado.mostrandoAutores && estado.token &&
               <PublicaLembrete token={estado.token}
                 onTokenInvalido={() => dispatch({type: 'REGISTRE_USUARIO_SAIU'})}/>
           }
           {
-            estado.token &&
+            !estado.mostrandoAutores && estado.token &&
               <MostraLembretes token={estado.token}
                 onTokenInvalido={() => dispatch({type: 'REGISTRE_USUARIO_SAIU'})}/>
           }
